@@ -3,24 +3,19 @@ class Solution(object):
         if not height:
             return 0
     
-        n = len(height)
-        left_max = [0] * n
-        right_max = [0] * n
+        volume = 0
+        left, right = 0, len(height) - 1
+        left_max , right_max = height[left], height[right]
+
+        while left < right :
+            left_max, right_max = max(height[left],left_max), max(height[right],right_max)
+
+            if left_max <= right_max:
+                volume += left_max - height[left]
+                left += 1
+            
+            else :
+                volume += right_max - height[right]
+                right -= 1
         
-        # Fill left_max array
-        left_max[0] = height[0]
-        for i in range(1, n):
-            left_max[i] = max(left_max[i-1], height[i])
-            
-        # Fill right_max array
-        right_max[n-1] = height[n-1]
-        for i in range(n-2, -1, -1):
-            right_max[i] = max(right_max[i+1], height[i])
-            
-        # Calculate trapped water
-        water = 0
-        for i in range(n):
-            water += min(left_max[i], right_max[i]) - height[i]
-            
-        return water
-            
+        return volume
