@@ -1,13 +1,11 @@
-class Solution(object):
-    def numJewelsInStones(self, jewels, stones):
-        jewel_set = set(jewels)
-    
-        # Initialize a counter for the jewels found in stones
-        count = 0
-        
-        # Iterate through each stone and check if it is a jewel
-        for stone in stones:
-            if stone in jewel_set:
-                count += 1
-        
-        return count
+class Solution:
+    def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        dic = {}
+        for i in jewels:
+            if i not in dic:
+                dic[i] = 1
+        ans = 0
+        for i in stones:
+            if i in dic:
+                ans += 1
+        return ans
