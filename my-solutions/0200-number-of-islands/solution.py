@@ -1,27 +1,29 @@
-class Solution(object):
-    def numIslands(self, grid):
-        if not grid:
-            return 0
-    
-        rows, cols = len(grid), len(grid[0])
+from collections import deque
+class Solution:
+    def numIslands(self, grid: List[List[str]]) -> int:
+        m = len(grid)
+        n = len(grid[0])
+        def bfs(row,col):
+            visited[row][col] = True
+            q = deque([(row,col)])
+            while q:
+                ci,cj = q.popleft()
+                for di,dj in ((0,1),(0,-1),(1,0),(-1,0)) :
+                    ni = ci + di
+                    nj = cj + dj
+                
+                    if 0<=ni<m and 0<=nj<n and not visited[ni][nj]  and grid[ni][nj] == "1":
+                        q.append((ni,nj))
+                        visited[ni][nj] = True
+
+        visited = [[False]*n for _ in range(m)]
         
-        def dfs(row, col):
-            if row < 0 or col < 0 or row >= rows or col >= cols or grid[row][col] == '0':
-                return
-            grid[row][col] = '0'  # Marking the cell as visited
-            
-            # Recursively call DFS on adjacent cells
-            dfs(row + 1, col)
-            dfs(row - 1, col)
-            dfs(row, col + 1)
-            dfs(row, col - 1)
-            
-        count = 0
-        for i in range(rows):
-            for j in range(cols):
-                if grid[i][j] == '1':
-                    dfs(i, j)
-                    count += 1
+        ans = 0
+        for i in range(m):
+            for j in range(n):
+                if not visited[i][j]  and grid[i][j] == "1":
+                    bfs(i,j)
+                    ans += 1
                     
-        return count
-            
+        
+        return ans
