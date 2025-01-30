@@ -1,17 +1,14 @@
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
+        ans = []
         dic = {}
         for i in nums:
-            if i in dic:
-                dic[i] += 1
-            else :
+            if i not in dic:
                 dic[i] = 1
-
-        ans = []
-        cnt = 0
-        for i,j in sorted(dic.items(),key = lambda x:-x[1]):
-            ans.append(i)
-            cnt += 1
-            # print(i,j,dic)
-            if cnt == k :
-                return ans
+            else:
+                dic[i] += 1
+        
+        dic = sorted(dic,key = lambda x : -dic[x])
+        for i in range(k):
+            ans.append(dic[i])
+        return ans
