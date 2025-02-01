@@ -1,20 +1,17 @@
 class Solution:
     def groupAnagrams(self, strs: List[str]) -> List[List[str]]:
         dic = {}
-        cnt = 1
-        ans = []
         for i in strs:
-            sort_i = ''
-            for j in sorted(i):
-                sort_i += j
-
-            if sort_i in dic:
-                dic[sort_i].append(i)
+            cnt = [0] * 26
+            for j in i:
+                cnt[ord(j)-ord('a')] += 1
+            
+            if tuple(cnt) in dic:
+                dic[tuple(cnt)].append(i)
             else:
-                dic[sort_i] = [i]
+                dic[tuple(cnt)] = [i]
 
+        ans = []
         for i in dic:
-            print(dic[i],'dici')
-            ans += [dic[i]]
-
+            ans.append(dic[i])
         return ans
