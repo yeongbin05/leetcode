@@ -1,34 +1,30 @@
-class Solution(object):
-    def isValid(self, s):
+class Solution:
+    def isValid(self, s: str) -> bool:
         stack = []
         for i in s:
-            if i in ['(','{','['] :
+            if i in '([{':
                 stack.append(i)
-
-            else :
-                if not stack :
+            else:
+                if not stack:
                     return False
-                elif i == ')' :
-                    if stack[-1] == '(' :
+                if i == ')' :
+                    if stack[-1] == '(':
                         stack.pop()
-                        continue
-                    else :
+                    else:
                         return False
-
-                elif i == '}':
-                    if stack[-1] == '{' :
+                elif i == ']' :
+                    if stack[-1] == '[':
                         stack.pop()
-                        continue
-                    else :
+                    else:
                         return False
-
                 else :
-                    if stack[-1] == '[' :
+                    if stack[-1] == '{':
                         stack.pop()
-                        continue
-                    else :
+                    else:
                         return False
+
         if stack:
             return False
+
         else:
             return True
