@@ -1,24 +1,24 @@
 # Definition for a binary tree node.
-# class TreeNode(object):
+# class TreeNode:
 #     def __init__(self, val=0, left=None, right=None):
 #         self.val = val
 #         self.left = left
 #         self.right = right
-from collections import deque
-class Solution(object):
-    def isSameTree(self, p, q):
-        def dfs(p, q):
-            # 둘 다 None이면 True (둘 다 리프 노드인 경우)
-            if not p and not q:
+class Solution:
+    def isSameTree(self, p: Optional[TreeNode], q: Optional[TreeNode]) -> bool:
+        def check(node1,node2):
+            if not node1 and not node2:
                 return True
-            # 둘 중 하나만 None이면 False
-            if not p or not q:
+
+            elif not node1 or not node2 :
                 return False
-            # 값이 다르면 False
-            if p.val != q.val:
+
+            if node1.val == node2.val:          
+                left_check = check(node1.left, node2.left)
+                right_check = check(node1.right, node2.right)
+                return left_check and right_check
+            else:
                 return False
-            # 왼쪽과 오른쪽 자식을 재귀적으로 비교
-            return dfs(p.left, q.left) and dfs(p.right, q.right)
         
-        # dfs 함수 호출
-        return dfs(p, q)
+        ans = check(p,q)
+        return ans
