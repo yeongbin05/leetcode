@@ -5,7 +5,7 @@ class Solution:
         for n in nums:
             heapq.heappush(heap,-n) 
         
-        for _ in range(1,k) :
-            heapq.heappop(heap)
+        for _ in range(k) :
+           a = heapq.heappop(heap)
 
-        return -heapq.heappop(heap)
+        return -a
