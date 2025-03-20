@@ -1,19 +1,17 @@
 class Solution:
     def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        def comb(idx,target):
-            if target == 0:
-                # print(temp)
-                ans.append(list(temp))
-            elif target < 0 :
+        ans=[]
+        n = len(candidates)
+        def back(idx,temp):
+            if sum(temp) == target:
+                ans.append(temp[:])
                 return
+            if sum(temp) > target:
+                return
+            
             for i in range(idx,n):
                 temp.append(candidates[i])
-                comb(i,target-candidates[i])
+                back(i,temp)
                 temp.pop()
-        ans = []
-        n = len(candidates)
-        temp = []
-        comb(0,target)
-
+        back(0,[])
         return ans
-
