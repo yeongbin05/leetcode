@@ -1,27 +1,20 @@
-class Solution(object):
-    def makeFancyString(self, s):
-        temp = ''
-        ans = ''
+class Solution:
+    def makeFancyString(self, s: str) -> str:
+        ans = ""
+        # 현재 문자
+        current = ""
+        # 연속된 문자 수
+        temp = 0
         for i in s:
-            if not temp :
-                temp += i
-            elif len(temp) == 1 :
-
-                if i == temp[-1] :
-                    temp += i
+            if i == current :
+                if temp == 2:
                     continue
-
-                else :
-                    ans += temp
-                    temp = i
-
-            elif len(temp) == 2 :
-                if i == temp[-1]:
-                    continue
-
-                else :
-                    ans += temp
-                    temp = i
-            
-        ans += temp
+                else:
+                    temp += 1
+                    ans += i
+            else:
+                current = i
+                temp = 1
+                ans += i
+        
         return ans
