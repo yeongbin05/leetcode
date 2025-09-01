@@ -1,32 +1,27 @@
+
+import heapq
 class Solution:
-    def maxAverageRatio(
-        self, classes: List[List[int]], extraStudents: int
-    ) -> float:
-        # Lambda to calculate the gain of adding an extra student
-        def _calculate_gain(passes, total_students):
-            return (passes + 1) / (total_students + 1) - passes / total_students
+    def maxAverageRatio(self, classes: List[List[int]], extraStudents: int) -> float:
+        def gain(p: int, t: int) -> float:
+            return (p + 1) / (t + 1) - p / t
 
-        # Max heap to store (-gain, passes, total_students)
-        max_heap = []
-        for passes, total_students in classes:
-            gain = _calculate_gain(passes, total_students)
-            heapq.heappush(max_heap, (-gain, passes, total_students))
+        # 최대 힙 생성 (heapq는 기본이 최소힙이라 -를 붙여줌)
+        heap = [(-gain(p, t), p, t) for p, t in classes]
+        heapq.heapify(heap)
 
-        # Distribute extra students
+        # extraStudents명 배정
         for _ in range(extraStudents):
-            current_gain, passes, total_students = heapq.heappop(max_heap)
-            heapq.heappush(
-                max_heap,
-                (
-                    -_calculate_gain(passes + 1, total_students + 1),
-                    passes + 1,
-                    total_students + 1,
-                ),
-            )
+            # 증가량 가장 큰 반 꺼내서
+            neg_gain, p, t = heapq.heappop(heap)
+            p += 1
+            t += 1
+            # 갱신된 반 다시 힙에 넣기
+            heapq.heappush(heap, (-gain(p, t), p, t))
 
-        # Calculate the final average pass ratio
-        total_pass_ratio = 0
-        while max_heap:
-            _, passes, total_students = heapq.heappop(max_heap)
-            total_pass_ratio += passes / total_students
-        return total_pass_ratio / len(classes)
+        # 최종 평균 계산
+        total = 0
+        while heap:
+            _, p, t = heapq.heappop(heap)
+            total += p / t
+
+        return total / len(classes)
