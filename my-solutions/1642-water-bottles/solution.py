@@ -1,14 +1,12 @@
-class Solution(object):
-    def numWaterBottles(self, numBottles, numExchange):
-        """
-        :type numBottles: int
-        :type numExchange: int
-        :rtype: int
-        """
-        ans = numBottles
-        while numBottles >= numExchange :
-            ans += numBottles//numExchange
-            numBottles = numBottles//numExchange + numBottles%numExchange
-
-        return ans
+class Solution:
+    def numWaterBottles(self, numBottles: int, numExchange: int) -> int:
+        ans = 0
+        emptyBottles = 0
+        while 1:
+            ans += numBottles
+            emptyBottles += numBottles
+            if emptyBottles < numExchange:
+                return ans
+            numBottles = emptyBottles//numExchange
+            emptyBottles -= numExchange*(emptyBottles//numExchange)
 
