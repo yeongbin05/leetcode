@@ -1,25 +1,19 @@
-from collections import deque
-import heapq
-class Solution(object):
-    def maxMatrixSum(self, matrix):
-        heap = []
+
+class Solution:
+    def maxMatrixSum(self, matrix: List[List[int]]) -> int:
         n = len(matrix)
-        m = len(matrix[0])
-        cnt = 0 
-        Sum = 0
-        least = 100001
-        for i in range(n):
-            for j in range(m):
-                Sum += abs(matrix[i][j])
-                
-                if matrix[i][j] <= 0 :
-                    cnt += 1
-                if abs(matrix[i][j]) < least:
-                    least = abs(matrix[i][j])
+        ans = 0
+        minus_cnt = 0
+        min_abs = float('inf')
+        for col in range(n):
+            for row in range(n):
+                ans += abs(matrix[row][col])
+                if abs(matrix[row][col]) < min_abs:
+                    min_abs = abs(matrix[row][col])
+                if matrix[row][col] < 0 :
+                    minus_cnt += 1
+        print(ans,min_abs,minus_cnt)
+        if minus_cnt % 2 == 1:
+            ans -= (2*min_abs)
 
-        if cnt % 2 ==0:
-            return Sum
-
-        else:
-            return Sum - abs(least) * 2
-    
+        return ans
