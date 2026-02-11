@@ -1,13 +1,13 @@
 class Solution:
     def numJewelsInStones(self, jewels: str, stones: str) -> int:
+        jewel_type = {}
+        for jewel in jewels:
+            if jewel not in jewel_type:
+                jewel_type[jewel] = 1
+        
         ans = 0
-        dic = {}
-        for i in jewels:
-            if i not in dic:
-                dic[i] = 1
-
-        for i in stones:
-            if i in dic:
+        for stone in stones:
+            if stone in jewel_type:
                 ans += 1
-
-        return ans 
+        
+        return ans
