@@ -1,17 +1,28 @@
-import re
 class Solution:
     def mostCommonWord(self, paragraph: str, banned: List[str]) -> str:
+        new_paragraph = []
+        for ch in paragraph:
+            if ch == ' ' or ch.isalpha():
+                new_paragraph.append(ch.lower())
+            else:
+                new_paragraph.append(' ')
+        
+        paragraph = ''.join(new_paragraph).split()
+        ban_set = set()
+        for i in banned:
+            ban_set.add(i)
         dic = {}
-        paragraph = re.sub(r'[!?,;.\']',' ',paragraph).lower().split()
-
-        cnt = 0
-        for i in paragraph:
-            if i not in banned:
-                if i in dic:
-                    dic[i] += 1
+        # print(paragraph,ban_set)
+        ans_cnt,ans_word = 0,''
+        for ch in paragraph:
+            if ch not in ban_set :
+                if ch not in dic:
+                    dic[ch] = 1
                 else:
-                    dic[i] = 1
-                if dic[i] > cnt:
-                    cnt += 1
-                    ans = i
-        return ans
+                    dic[ch] += 1
+
+                if dic[ch] > ans_cnt:
+                    ans_cnt = dic[ch]
+                    ans_word = ch
+        # print(dic)
+        return ans_word
