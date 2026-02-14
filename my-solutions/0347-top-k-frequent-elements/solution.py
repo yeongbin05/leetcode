@@ -1,26 +1,18 @@
 import heapq
 class Solution:
     def topKFrequent(self, nums: List[int], k: int) -> List[int]:
-        n = len(nums)
-        if n == k :
-            return nums
-
-        dic = {}
-        hq = []
-        # hq 길이
-        cnt = 0
+        frequency = {}
+        ans = []
         for i in nums:
-            if i in dic:
-                dic[i] += 1
+            if i in frequency:
+                frequency[i] += 1
             else:
-                dic[i] = 1
-        for i in dic:
-            heapq.heappush(hq,(dic[i],i))
-            cnt += 1
-            if cnt > k:
-                heapq.heappop(hq)
-            
-
-        return [i[1] for i in hq]
-
+                frequency[i] = 1
+        hq = []
+        for i in frequency:
+            heapq.heappush(hq,(-frequency[i],i))
+        for i in range(k):
+            ans.append(heapq.heappop(hq)[1])
         
+
+        return ans
