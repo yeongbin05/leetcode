@@ -1,12 +1,16 @@
 class Solution:
     def reorderLogFiles(self, logs: List[str]) -> List[str]:
-        letter = []
-        digit = []
+        logs = [i.split() for i in logs]
+        letter_logs = []
+        digit_logs  =[]
         for i in logs:
-            temp = i.split()
-            if temp[1].isdigit():
-                digit.append(i)
+            if i[1][0] in '0123456789' :
+                digit_logs.append(i)
             else:
-                letter.append(i)
-        letter.sort(key= lambda x:(x.split()[1:],x.split()[0]))
-        return letter + digit
+                letter_logs.append(i)
+        
+
+        letter_logs.sort(key = lambda x : (x[1:],x[0]))
+        letter_logs = [' '.join(i) for i in letter_logs]
+        digit_logs = [' '.join(i) for i in digit_logs]
+        return letter_logs + digit_logs
