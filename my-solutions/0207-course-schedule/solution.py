@@ -1,28 +1,36 @@
 from collections import deque
 class Solution:
     def canFinish(self, numCourses: int, prerequisites: List[List[int]]) -> bool:
-        q = deque()
         graph = [[] for _ in range(numCourses)]
-        in_degree = [0] * (numCourses)
-        for i in prerequisites:
-            graph[i[1]].append(i[0])
-            in_degree[i[0]] += 1
-        cnt =0 
-        for i in range(numCourses):
-            if in_degree[i] == 0:
-                q.append(i)
-                cnt += 1
+        for a, b in prerequisites:
+            graph[b].append(a)   # b -> a
 
-        while q:
-            course = q.popleft()
-            for next_course in graph[course]:
-                in_degree[next_course] -= 1  # 선수 과목을 하나 들었으니 감소
-                if in_degree[next_course] == 0:  # 이제 들을 수 있는 상태면 큐에 추가
-                    q.append(next_course)
+        # 상태 배열
+        state = [0] * numCourses
 
-                    cnt += 1
-        if cnt == numCourses:
+        def dfs(node):
+            # 현재 경로에 다시 들어오면 사이클
+            if state[node] == 1:
+                return False
+
+            # 이미 안전하다고 검증된 노드
+            if state[node] == 2:
+                return True
+
+            # 탐색 시작
+            state[node] = 1
+
+            for nxt in graph[node]:
+                if not dfs(nxt):
+                    return False
+
+            # 탐색 완료
+            state[node] = 2
             return True
 
-        else:
-            return False
+        # 모든 노드 검사
+        for i in range(numCourses):
+            if not dfs(i):
+                return False
+
+        return True
