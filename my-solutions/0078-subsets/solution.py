@@ -1,15 +1,14 @@
 class Solution:
     def subsets(self, nums: List[int]) -> List[List[int]]:
         ans = []
-        n = len(nums)
-        def comb(idx,temp):
-            if len(temp) <= n:
+        def back(idx,temp):
+            if idx == len(nums):
                 ans.append(temp[:])
-
-            for i in range(idx,n):
-                temp.append(nums[i])
-                comb(i+1,temp)
-                temp.pop()
-
-        comb(0,[])
+                return
+            temp.append(nums[idx])
+            back(idx+1,temp)
+            temp.pop()
+            back(idx+1,temp)
+        
+        back(0,[])
         return ans
