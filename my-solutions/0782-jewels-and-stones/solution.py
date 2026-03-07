@@ -1,8 +1,12 @@
 class Solution:
     def numJewelsInStones(self, jewels: str, stones: str) -> int:
-        jewel = set(jewels)
+        type_of_jewels = set()
         ans = 0
-        for i in stones:
-            if i in jewel:
-                ans +=1 
+        for jewel in jewels:
+            type_of_jewels.add(jewel)
+
+        for stone in stones:
+            if stone in type_of_jewels:
+                ans += 1
+
         return ans
