@@ -5,16 +5,12 @@ class Solution:
         def recur(temp):
             if len(temp) == n:
                 ans.append(temp[:])
-                return
-            for i in nums:
-                if i not in temp:
-                    temp.append(i) 
+
+            for i in range(n):
+                if nums[i] not in temp:
+                    temp.append(nums[i])
                     recur(temp)
                     temp.pop()
 
-
         recur([])
-
-
-
         return ans
